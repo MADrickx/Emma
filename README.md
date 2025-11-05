@@ -150,5 +150,5 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ## Contributing
 
-Contributions are welcome! Please ensure your code follows the project's TypeScript and security best practices outlined in `SENIOR_RULES.md`.
+Contributions are welcome!
 
