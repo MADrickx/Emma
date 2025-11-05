@@ -1,6 +1,6 @@
 # Emulator Manager
 
-A simple and naïve Cursor 2.0 plugin that lets you list and start iOS and Android emulators directly from Cursor's sidebar.
+A simple and naïve vsCode/Cursor plugin that lets you list and start iOS and Android emulators directly from Cursor's sidebar.
 
 ## Features
 
