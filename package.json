@@ -10,7 +10,7 @@
     "url": "https://github.com/MADrickx/Emma.git"
   },
   "engines": {
-    "vscode": "^1.105.0"
+    "vscode": "^1.99.0"
   },
   "categories": [
     "Other"
