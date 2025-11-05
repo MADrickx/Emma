@@ -32,6 +32,13 @@ A simple and naïve Cursor 2.0 plugin that lets you list and start iOS and Andro
 
 ## Installation
 
+### From OpenVSX (Recommended)
+
+Install directly from OpenVSX:
+- [Install from OpenVSX](https://open-vsx.org/extension/ByteEatsBits/emma-emulator-manager)
+
+### From Source
+
 1. Clone or download this repository
 2. Open the project in Cursor
 3. Run `npm install` to install dependencies
