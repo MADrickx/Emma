@@ -2,7 +2,7 @@
   "name": "emma-emulator-manager",
   "displayName": "Emma - Emulator Manager",
   "description": "List and start iOS and Android emulators directly from Cursor sidebar",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "publisher": "ByteEatsBits",
   "license": "MIT",
   "repository": {
@@ -21,7 +21,8 @@
     "ios",
     "android",
     "mobile",
-    "development"
+    "development",
+    "cursor"
   ],
   "activationEvents": [
     "onCommand:emulatorManager.refresh",
