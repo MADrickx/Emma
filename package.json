@@ -1,0 +1,101 @@
+{
+  "name": "emulator-manager",
+  "displayName": "Emulator Manager",
+  "description": "List and start iOS and Android emulators directly from Cursor",
+  "version": "1.0.0",
+  "publisher": "YOUR_PUBLISHER_NAME",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "YOUR_REPOSITORY_URL"
+  },
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "emulator",
+    "simulator",
+    "ios",
+    "android",
+    "mobile",
+    "development"
+  ],
+  "activationEvents": [
+    "onCommand:emulatorManager.refresh",
+    "onView:emulatorManagerView",
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "emulatorManager.refresh",
+        "title": "Refresh Emulators",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "emulatorManager.startIOS",
+        "title": "Start iOS Simulator"
+      },
+      {
+        "command": "emulatorManager.startAndroid",
+        "title": "Start Android Emulator"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "emulatorManager",
+          "title": "Emulator Manager",
+          "icon": "$(device-mobile)"
+        }
+      ]
+    },
+    "views": {
+      "emulatorManager": [
+        {
+          "id": "emulatorManagerView",
+          "name": "Emulators",
+          "when": "true"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "emulatorManager.refresh",
+          "when": "view == emulatorManagerView",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "emulatorManager.startIOS",
+          "when": "view == emulatorManagerView && viewItem == iosEmulator",
+          "group": "inline"
+        },
+        {
+          "command": "emulatorManager.startAndroid",
+          "when": "view == emulatorManagerView && viewItem == androidEmulator",
+          "group": "inline"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "NODE_OPTIONS='--no-deprecation' tsc -p ./",
+    "watch": "NODE_OPTIONS='--no-deprecation' tsc -watch -p ./",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.0",
+    "@types/vscode": "^1.105.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "type": "commonjs"
+}
