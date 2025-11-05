@@ -46,6 +46,11 @@ Install directly from OpenVSX:
 5. Press `F5` to open a new Cursor window with the extension loaded
 6. Or package the extension: `npm install -g vsce && vsce package`
 
+### From MarketPlace
+
+Install from the VS Code Marketplace:
+- [Install from Marketplace](https://marketplace.visualstudio.com/items?itemName=ByteEatsBits.emma-emulator-manager)
+
 ## Usage
 
 1. Open Cursor
