@@ -6,4 +6,5 @@ tsconfig.json
 **/*.map
 **/*.ts
 !out/**/*.js
+!assets/**
 

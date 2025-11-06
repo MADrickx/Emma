@@ -41,7 +41,7 @@ export class EmulatorProvider implements vscode.TreeDataProvider<EmulatorItem> {
    */
   private getIconPath(iconName: string): vscode.Uri {
     return vscode.Uri.file(
-      path.join(this.extensionPath, "src", "assets", "icons", `${iconName}.svg`)
+      path.join(this.extensionPath, "assets", "icons", `${iconName}.svg`)
     );
   }
 
