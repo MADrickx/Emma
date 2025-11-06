@@ -2,7 +2,7 @@
   "name": "emma-emulator-manager",
   "displayName": "Emma - Emulator Manager",
   "description": "List and start iOS and Android emulators directly from Cursor sidebar",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "publisher": "ByteEatsBits",
   "license": "MIT",
   "repository": {
@@ -90,7 +90,10 @@
     "vscode:prepublish": "npm run compile",
     "compile": "NODE_OPTIONS='--no-deprecation' tsc -p ./",
     "watch": "NODE_OPTIONS='--no-deprecation' tsc -watch -p ./",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "package": "vsce package",
+    "publish": "vsce publish",
+    "publish:all": "npm run compile && vsce package && vsce publish"
   },
   "devDependencies": {
     "@types/node": "^24.10.0",
