@@ -19,7 +19,12 @@ function parseIOSSimulatorList(jsonString: string): IOSSimulator[] {
     for (const runtime in data.devices) {
       const devices = data.devices[runtime];
       if (Array.isArray(devices)) {
-        simulators.push(...devices);
+        // Ensure each device has the runtime field set
+        const devicesWithRuntime = devices.map((device) => ({
+          ...device,
+          runtime: device.runtime || runtime, // Use device runtime if present, otherwise use the key
+        }));
+        simulators.push(...devicesWithRuntime);
       }
     }
 
@@ -97,5 +102,85 @@ export function isSimulatorBooted(simulator: IOSSimulator): boolean {
 export async function getRunningIOSSimulators(): Promise<IOSSimulator[]> {
   const simulators = await listIOSSimulators();
   return simulators.filter(isSimulatorBooted);
+}
+
+/**
+ * Extract device subtype from deviceTypeIdentifier or name
+ * Returns the device category (iPhone, iPad, Apple Watch, etc.)
+ */
+export function getIOSDeviceSubtype(simulator: IOSSimulator): "iPhone" | "iPad" | "Apple Watch" | "Apple Vision" | "Apple TV" | "Other" {
+  const identifier = simulator.deviceTypeIdentifier.toLowerCase();
+  const name = simulator.name.toLowerCase();
+
+  // Check deviceTypeIdentifier first (more reliable)
+  if (identifier.includes('iphone')) {
+    return 'iPhone';
+  }
+  if (identifier.includes('ipad')) {
+    return 'iPad';
+  }
+  if (identifier.includes('watch') || identifier.includes('apple watch')) {
+    return 'Apple Watch';
+  }
+  if (identifier.includes('vision') || identifier.includes('vision pro')) {
+    return 'Apple Vision';
+  }
+  if (identifier.includes('tv') || identifier.includes('appletv')) {
+    return 'Apple TV';
+  }
+
+  // Fallback to name parsing
+  if (name.includes('iphone')) {
+    return 'iPhone';
+  }
+  if (name.includes('ipad')) {
+    return 'iPad';
+  }
+  if (name.includes('watch')) {
+    return 'Apple Watch';
+  }
+  if (name.includes('vision')) {
+    return 'Apple Vision';
+  }
+  if (name.includes('tv')) {
+    return 'Apple TV';
+  }
+
+  return 'Other';
+}
+
+/**
+ * Extract iOS version from runtime string
+ * Handles formats like:
+ * - "iOS 17.0"
+ * - "com.apple.CoreSimulator.SimRuntime.iOS-17-0"
+ * - "watchOS 10.0"
+ * - "com.apple.CoreSimulator.SimRuntime.watchOS-10-0"
+ * Returns version string (e.g., "17.0") or undefined if not found
+ */
+export function extractIOSVersion(runtime: string): string | undefined {
+  if (!runtime) {
+    return undefined;
+  }
+
+  // Try to match formats like "iOS 17.0", "watchOS 10.0", etc.
+  const simpleMatch = runtime.match(/(?:iOS|watchOS|tvOS|visionOS)\s+(\d+\.\d+(?:\.\d+)?)/i);
+  if (simpleMatch) {
+    return simpleMatch[1];
+  }
+
+  // Try to match formats like "com.apple.CoreSimulator.SimRuntime.iOS-17-0"
+  const identifierMatch = runtime.match(/(?:iOS|watchOS|tvOS|visionOS)-(\d+)-(\d+)/i);
+  if (identifierMatch) {
+    return `${identifierMatch[1]}.${identifierMatch[2]}`;
+  }
+
+  // Try to match any version pattern like "17.0", "16.4.1"
+  const versionMatch = runtime.match(/(\d+\.\d+(?:\.\d+)?)/);
+  if (versionMatch) {
+    return versionMatch[1];
+  }
+
+  return undefined;
 }
 

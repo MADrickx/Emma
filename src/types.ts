@@ -24,6 +24,8 @@ export interface AndroidEmulator {
 
 export type EmulatorPlatform = "ios" | "android";
 
+export type IOSDeviceSubtype = "iPhone" | "iPad" | "Apple Watch" | "Apple Vision" | "Apple TV" | "Other";
+
 export interface EmulatorItem {
   id: string;
   label: string;
@@ -33,6 +35,9 @@ export interface EmulatorItem {
   name?: string; // For Android
   icon?: string;
   isCategory?: boolean; // For grouping categories
+  isSubtype?: boolean; // For iOS subtype grouping
+  subtype?: IOSDeviceSubtype; // For iOS device subtype
+  iosVersion?: string; // iOS version (e.g., "17.0", "16.4")
   children?: EmulatorItem[]; // For category items
 }
 

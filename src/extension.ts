@@ -2,39 +2,42 @@
  * Main extension entry point
  */
 
-import * as vscode from 'vscode';
-import { EmulatorProvider } from './emulatorProvider';
-import { EmulatorItem } from './types';
+import * as vscode from "vscode";
+import { EmulatorProvider } from "./emulatorProvider";
+import { EmulatorItem } from "./types";
 
 let emulatorProvider: EmulatorProvider;
 
 export function activate(context: vscode.ExtensionContext) {
   // Suppress punycode deprecation warnings
   const originalEmitWarning = process.emitWarning;
-  process.emitWarning = function(warning: string | Error, ...args: any[]) {
-    if (typeof warning === 'string' && warning.includes('punycode')) {
+  process.emitWarning = function (warning: string | Error, ...args: any[]) {
+    if (typeof warning === "string" && warning.includes("punycode")) {
       return; // Suppress punycode deprecation warnings
     }
     return originalEmitWarning.call(process, warning, ...args);
   };
 
   // Create emulator provider
-  emulatorProvider = new EmulatorProvider();
+  emulatorProvider = new EmulatorProvider(context.extensionUri.fsPath);
 
   // Register tree view
-  const treeView = vscode.window.createTreeView('emulatorManagerView', {
+  const treeView = vscode.window.createTreeView("emulatorManagerView", {
     treeDataProvider: emulatorProvider,
     showCollapseAll: false,
   });
 
   // Register refresh command
-  const refreshCommand = vscode.commands.registerCommand('emulatorManager.refresh', () => {
-    emulatorProvider.refresh();
-  });
+  const refreshCommand = vscode.commands.registerCommand(
+    "emulatorManager.refresh",
+    () => {
+      emulatorProvider.refresh();
+    }
+  );
 
   // Register start iOS command
   const startIOSCommand = vscode.commands.registerCommand(
-    'emulatorManager.startIOS',
+    "emulatorManager.startIOS",
     async (item: EmulatorItem) => {
       await emulatorProvider.startEmulator(item);
     }
@@ -42,7 +45,7 @@ export function activate(context: vscode.ExtensionContext) {
 
   // Register start Android command
   const startAndroidCommand = vscode.commands.registerCommand(
-    'emulatorManager.startAndroid',
+    "emulatorManager.startAndroid",
     async (item: EmulatorItem) => {
       await emulatorProvider.startEmulator(item);
     }
@@ -58,7 +61,7 @@ export function activate(context: vscode.ExtensionContext) {
       dispose: () => {
         // Cleanup polling when extension deactivates
         emulatorProvider.dispose();
-      }
+      },
     }
   );
 }
@@ -69,4 +72,3 @@ export function deactivate() {
     emulatorProvider.dispose();
   }
 }
-
